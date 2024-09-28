@@ -6,11 +6,15 @@ import Image from '../../img/argentBankLogo.png'
 import './Navbar.css'
 
 function Narbar() {
-
     const isConnected = useSelector((state) => state.auth.user);
-    const userName = useSelector((state) => state.user.userData.userName);
-    const state = useSelector((state) => state)
-    console.log(isConnected, userName, state);
+    const userName = useSelector((state) => {
+        if(state.user && state.user.userData){
+            return state.user.userData.userName;
+        }
+        return undefined;
+    });
+
+    console.log('username ==> navbar', userName);
     
     //const dispatch = useDispatch();
     // const navigate = useNavigate();
