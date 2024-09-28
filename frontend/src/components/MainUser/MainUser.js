@@ -1,12 +1,12 @@
 import React from 'react';
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { userProfile, updateUserName } from "../../actions/userActions";
 
 import './MainUser.css'
 
 export const MainUser = () => {
-  // const dispatch = useDispatch();
+   const dispatch = useDispatch();
 
   // const [userName, setUserName] = useState("");
   // const [display, setDisplay] = useState(true);
@@ -27,9 +27,10 @@ export const MainUser = () => {
           Authorization: `Bearer ${token}`
         }
       });
-      // const user = await response.json();
+       const user = (await response.json()).body;
 
-      // dispatch(userProfile(user));
+       console.log('dispatching', user);
+       dispatch(userProfile(user));
     };
 
     fetchUserData();
