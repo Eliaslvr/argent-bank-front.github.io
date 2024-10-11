@@ -101,6 +101,74 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
+  /user/transactions/{accountID}:
+    # récupérer les détails d'une transaction spécifique en fonction de l'ID de la transaction.
+      get:
+        tags:
+          - User Transactions
+        summary: User's account 
+        description: API for getting all accounts
+        security: 
+          - Bearer: []
+        parameters:
+          - in: path
+            name: accountID
+            description: User account ID
+            required: true
+            type: string
+        responses:
+          '200':
+            description: Transactions successfully recovered
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/Transaction'
+          '400':
+            description: Bad request. Account ID must be an integer and greater than 0.
+          '404':
+            description: Transactions not found
+          '500':
+            description: Internal Server Error
+    # permet de mettre à jour les informations d'une transaction existante.
+      put:
+        tags:
+          - Transaction Module
+        summary: Update transaction information
+        description: API to modify certain information of a transaction
+        parameters:
+          - in: path
+            name: accountID
+            required: true
+            type: string
+            description: Unique transaction ID
+          - in: body
+            name: body
+            required: true
+            description: New transaction information
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                  description: New transaction description
+                amount:
+                  type: number
+                  format: float
+                  description: New transaction amount
+        produces:
+          - application/json
+        responses:
+          '200':
+            description: Transaction updated successfully
+            schema:
+              $ref: '#/definitions/ApiResponse'
+          '400':
+            description: Invalid query parameters or invalid data
+          '404':
+            description: Transaction not found
+          '500':
+            description: Internal Server Error
+  
 securityDefinitions:
   Bearer:
     type: apiKey
@@ -156,3 +224,21 @@ definitions:
     properties:
       userName:
         type: string
+  # Transaction:
+  #   type: object
+  #   properties:
+  #     transaction_id:
+  #       type: string
+  #       description: ID unique de la transaction
+  #     date:
+  #       type: string
+  #       format: date
+  #       description: Date de la transaction
+  #     amount:
+  #       type: number
+  #       format: float
+  #       description: Montant de la transaction
+  #     description:
+  #       type: string
+  #       description: Description de la transaction
+
